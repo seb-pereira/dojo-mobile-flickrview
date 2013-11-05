@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>FlickerView: Implementing SettingsView - The Dojo Toolkit</title>
+		
+		
+		<!-- This will all be replaced on the live site -->
+		<link rel="stylesheet" href="http://dojotoolkit.org/css/site.css" type="text/css" media="all" />
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="http://dojotoolkit.org/documentation/tutorials/1.7/resources/style/style.css" media="screen">
+		<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script>
+		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushCss.js" type="text/javascript"></script>
+		<!-- Don't add anything here. This will be replaced on the live site. -->
+		<script>
+			dojo.ready(function(){
+				SyntaxHighlighter.all();
+			});
+		</script>
+	</head>
+	<body class="claro">
+		<div id="page" class="docPage">
+			<div id="header">
+    			<div class="container">
+        			<span id="logo"><a href="http://dojotoolkit.org" title="Homepage"><img src="http://dojotoolkit.org/images/logo.png" alt="Dojo Toolkit" /></a></span>
+    			</div>
+			</div>
+			<div id="main">
+				<div id="content" class="innerBox">
+					<div class="pageTitleContainer">
+						<h1>Documentation</h1>
+						<ul class="subnav">
+							<li><a href="http://dojotoolkit.org/documentation/"><span>Tutorials</span></a></li>
+							<li><a href="http://dojotoolkit.org/reference-guide/"><span>Reference Guide</span></a></li>
+							<li><a href="http://dojotoolkit.org/api/"><span>API Documentation</span></a></li>
+						</ul>
+					</div>
+					<div style="clear:left;" >
+						<div class="container" style="margin-bottom:50px; width:960px">
+							<div class="unit size2of3 firstUnit">
+								<!-- BEGIN YOUR TUTORIAL HERE -->
+								<div class="tutIntro">
+									<img src="images/preview.jpg" class="tut_preview" /><!-- Feel free to use youw own 200x200 image. Must be royalty free or similar license -->
+									<div class="introContainer">
+										<h2>Part IV - FlickView: Implementing SettingsView</h2>
+										<p class="summary">
+											In the previous post, we implemented the feed view and we are now able to
+											use data from a JSON request to update our ScrollableView with templated
+											ListItems. This part will focus on the settings view to get and set values
+											from various input widgets (TextBox, Switch, RadioButton) and use
+											Transition Events.
+										</p>
+										<ul>
+											<li><span>Difficulty:</span> Intermediate <!-- Beginner/Intermediate/Expert --></li>
+											<li><span>Dojo Version:</span> 1.9
+												<!-- The _single_ version of dojo this is being written for. --></li>
+											<li><span>Series:</span> FlickrView</li>
+										</ul>
+									</div>
+								</div>
+								<h3>SettingsView properties</h3>
+								<p>
+									We just need to keep some widget references, as well as the language currently
+									selected:
+								</p>
+<pre class="brush: js;">
+return declare([ScrollableView], {
+	 feedView: '',
+	tagInput: '',
+	selectSwitch: '',
+	selectedLanguage: '',
+//...
+</pre>
+
+								<p>
+									We also take the opportunity to add some useful getters and setters to our
+									SettingsView class:
+								</p>
+<pre class="brush: js;">
+ setTags: function (tags) {
+	this.tagInput.set('value', tags);
+},
+getTags: function () {
+	return this.tagInput.get('value');
+},
+setTagMode: function (tagmode) {
+	this.selectSwitch.set('value', (tagmode === "all") ? "on" : "off");
+},
+getTagMode: function () {
+	return (this.selectSwitch.get('value') === "on") ? "all" : "any";
+}
+</pre>
+
+								<p class="proTip">
+									<strong>dojox/mobile/switch</strong> has 2 states: <em>on</em> or <em>off</em>.
+									We arbitrarily choose to map the tag mode <strong>ALL</strong> to the
+									<em>on</em> state and <strong>ANY</strong> to the <em>off</em> state.
+								</p>
+								<p>
+									Continuing on the startup method, we create a handler to retain the selected
+									language when user clicks on a radio button. To do that we rely on a powerful
+									feature of <strong>dojo/on</strong>:
+									<a href="http://dojotoolkit.org/reference-guide/1.9/dojo/on.html#event-delegation"
+									   target="_blank">even delegation with selector</a>.
+								</p>
+<pre class="brush: js;">
+// handler to record the selected feed language
+this.on("[name=feedLanguage]:click", lang.hitch(this, function (e) {
+	this.selectedLanguage = e.target.value;
+}));
+</pre>
+
+								<h3>Is it done?</h3>
+								<p>
+									Add a click handler on the <strong>Done</strong> button, such as:
+								</p>
+								<ul>
+									<li>programmatically perform the transition back to the FeedView </li>
+									<li>force a refresh of the view only if the user changed at least one setting</li>
+								</ul>
+<pre class="brush: js;">
+// handler to update search query parameters when done button is selected
+registry.byId("doneButton").on("click", lang.hitch(this, function () {
+	// we are done with the settings: transition to FeedView
+	this.performTransition("feed");
+	// check if anything changed in the setting view
+	if (this.getTags() !== flickrview.QUERY.tags ||
+		this.getTagMode() !== flickrview.QUERY.tagmode ||
+		this.selectedLanguage !== flickrview.QUERY.lang) {
+		// update QUERY
+		flickrview.QUERY.tags = this.getTags();
+		flickrview.QUERY.tagmode = this.getTagMode();
+		flickrview.QUERY.lang = this.selectedLanguage;
+		// force FeedView list refresh
+		this.feedView.refresh()
+	}
+}));
+</pre>
+								<p>
+									As we manually trigger the transition, we have to update our HTML to tell the view
+									not to automatically transition, with <code>moveTo:'#'</code>:
+								</p>
+<pre class="brush: html;">
+&lt;!-- Settings view --&gt;
+&lt;div id="settings"
+	data-dojo-type="flickrview/SettingsView"&gt;
+	&lt;div data-dojo-type="dojox/mobile/Heading"
+	data-dojo-props="fixed: 'top', label: 'Settings'"&gt;
+		&lt;span data-dojo-type="dojox/mobile/ToolBarButton"
+			id="doneButton"
+			data-dojo-props="label:'Done', moveTo:'#', transition:'none'" style="float:right;"&gt;&lt;/span&gt;
+</pre>
+								<p>
+									One last step and the implementation will be done!
+								</p>
+
+								<h3>Respond to transition events</h3>
+								<p>
+									Dojo Mobile provides a set of events related to transitions [ADD LINK AND UPDATE DOC].
+									Still in the startup method, we’ll set a handler on the event <strong>beforeTransitionIn</strong>
+									to get notify just before a transition to the settings view occurs.
+								</p>
+<pre class="brush: js;">
+// handler to get notified before a transition to the current view starts
+this.on("beforeTransitionIn", lang.hitch(this, function () {
+	this.setTags(flickrview.QUERY.tags);
+	this.setTagMode(flickrview.QUERY.tagmode);
+	this.selectedLanguage = flickrview.QUERY.lang;
+	registry.byId(this.selectedLanguage).set('checked', true);
+}));
+</pre>
+								<p>
+									In this handler we simply update input widgets from the Settings view to reflect
+									the actual values from the QUERY object.
+								</p>
+
+								<h3>Clean up your code</h3>
+								<p>
+									In the previous parts of this tutorial we first created a mockup of the application.
+									This is a best practice to start from here as it gives a fast and easy way to apprehend the
+									user experience before jumping into the hard part.
+								</p>
+								<h4>Remove HTML mockup code</h4>
+								<p>
+									Now that our application is done we can remove all the artifacts from the mockup.
+									It will reduce the size and contribute to a clearer code:
+								</p>
+								<ul>
+									<li><strong>FeedView</strong>: remove the ListItems and the Heading label.</li>
+									<li><strong>DetailssView</strong>: remove the static description remove and the Heading label.</li>
+								</ul>
+								<h4>Remove Cache-Preventing Meta Tags</h4>
+								<p>
+									Remember the META tags we added to prevent caching during development of the widget?
+									Remove those to allow the application to be cached on the device:
+								</p>
+<pre class="brush: html;">
+&lt;!-- prevent cache --&gt;
+&lt;meta http-equiv="cache-control" content="no-cache"&gt;
+&lt;meta http-equiv="pragma" content="no-cache"&gt;
+</pre>
+								<h3>You did it!</h3>
+								<p>
+									<strong>Congratulations!</strong> You just developed a complete Dojo Mobile application. The next
+									part will show you how to make your application ready for production.
+								</p>
+								<p>
+									<a class="demoBtn demo" href="demo/flickrview.html"  target="_blank">View Demo</a>
+								</p>
+
+								<h3>Download The Source</h3>
+								<div class="downloadSource">
+									Download <a href="resources/DojoMobilePart4.zip">Part IV - Implementing SettingsView</a>.
+								</div>
+
+								<h3>Resources & references</h3>
+								<ul>
+									<li><a href="http://dojotoolkit.org/reference-guide/1.9/dojox/mobile/deviceTheme.html" target="_blank">dojox/mobile/deviceTheme</a></li>
+									<li><a href="http://dojotoolkit.org/documentation/tutorials/1.9/dojo_config/" target="_blank">Configuring Dojo (Tutorial)</a></li>
+									<li><a href="http://dojotoolkit.org/api/dojox/mobile" target="_blank">dojox/mobile API</a></li>
+									<li><a href="http://dojotoolkit.org/reference-guide/dojox/mobile.html" target="_blank">dojox/mobile Reference Guide</a></li>
+									<li><a href="http://dojotoolkit.org/features/1.6/html5data-attributes" target="_blank">data-dojo-props</a></li>
+								</ul>
+								<h3>The FlickrView Series</h3>
+								<div class="series">
+									<ol>
+										<li><a href="../part1">Part I  - Getting Started with Dojo Mobile</a></li>
+										<li><a href="../part2">Part II - Developing a Dojo Mobile Application: FlickrView</a></li>
+										<li><a href="../part3">Part III- FlickrView: Implementing FeedView</a></li>
+										<li><a href="../part4">Part IV - FlickrView: Implementing SettingsView</a></li>
+										<li><a href="../part5">Part V  - Build FlickrView for production</a></li>
+									</ol>
+								</div>
+							</div>
+							<div class="sidebar unit size1of3">
+								<div class="container">
+									<div class="sidebarSection">
+										<h4>About the Author</h4>
+										<div class="authorInfo">
+											<img src="images/avatar.jpg" class="avatar" />
+											<p>
+												author(s) bio here.
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br style="clear:both;" />
+		<div id="main">
+			<div id="content" class="innerBox">
+				<div id="foot">
+					<div class="innerBox">
+						<span class="redundant">&copy;</span> <a href="http://dojofoundation.org">The Dojo Foundation</a>, All Rights Reserved.&nbsp;&nbsp;&nbsp;<a href="http://dojotoolkit.org/license/">License Information</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
