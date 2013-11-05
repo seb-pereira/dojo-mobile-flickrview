@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-	Dojo Mobile tutorial | Flickrview | Part II
+	Dojo Mobile tutorial | Flickrview | Part IV
 -->
 <html>
 <head>
@@ -10,9 +10,9 @@
 	<!-- prevent cache -->
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="pragma" content="no-cache">
-	<title>Dojo Mobile tutorial | Flickrview | Part II | Mockup extends ScrollableView</title>
+	<title>Dojo Mobile tutorial | Flickrview | Part IV</title>
 	<!-- application stylesheet -->
-	<link rel="stylesheet" type="text/css" href="../app/css/flickrview.css">
+	<link rel="stylesheet" type="text/css" href="css/flickrview.css">
 	<!-- dynamically apply native visual theme according to the browser user agent -->
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js"></script>
 	<!-- dojo configuration options -->
@@ -21,6 +21,7 @@
 			async: true,
 			baseUrl: './',
 			parseOnLoad: false,
+			extraLocale: ["en-us", "fr-fr", "de-de", "it-it", "ko-kr", "pt-br", "es-us", "zh-hk"],
 			packages: [{
 				name: "flickrview",
 				location: "js/flickrview"
@@ -34,6 +35,7 @@
 		// Load the widget parser and mobile base
 		require([
 			"dojox/mobile/parser",
+			"dijit/registry",
 			"dojox/mobile/compat",
 			"dojo/domReady!",
 			"dojox/mobile/ScrollableView",
@@ -47,9 +49,18 @@
 			"dojox/mobile/Switch",
 			"flickrview/FeedView",
 			"flickrview/SettingsView"
-		], function (parser) {
+		], function (parser, registry) {
+			flickrview = {};
+			flickrview.QUERY = {
+				tags: "famous,bridges",
+				tagmode: "all",
+				format: "json",
+				lang: "en-us"
+			};
 			// Parse the page for widgets
 			parser.parse();
+			// refresh at startup
+			registry.byId("feed").refresh();
 		});
 	</script>
 </head>
@@ -57,8 +68,7 @@
 <!-- Feed view -->
 <div id="feed" data-dojo-type="flickrview/FeedView" data-dojo-props="selected: true">
 	<div id="feedHeading"
-		 data-dojo-type="dojox/mobile/Heading"
-		 data-dojo-props="fixed: 'top', label: 'Recent Uploads title here'">
+		 data-dojo-type="dojox/mobile/Heading">
 					<span data-dojo-type="dojox/mobile/ToolBarButton"
 						  data-dojo-props="icon: 'images/settings.png', moveTo:'settings', transitionDir:'-1', transition:'none'"
 						  style="float:left;"></span>
@@ -67,26 +77,6 @@
 						  style="float:right;"></span>
 	</div>
 	<div id="feedList" data-dojo-type="dojox/mobile/EdgeToEdgeList">
-		<div data-dojo-type="dojox/mobile/ListItem"
-			 data-dojo-props="moveTo:'details', transition:'slide'" class="photoListItem">
-			<img src="images/mockup/photo1.png" width="80px" height="80px" alt="Title" style="float:left;"/>
-			<div class="photoSummary">
-				<div class="photoTitle">Photo title here</div>
-				<div class="publishedTime" data-dojo-time="2013-12-13">published date here</div>
-				<div class="author">author here</div>
-			</div>
-			<div class="summaryClear"></div>
-		</div>
-		<div data-dojo-type="dojox/mobile/ListItem"
-			 data-dojo-props="moveTo:'details', transition:'slide'" class="photoListItem">
-			<img src="images/mockup/photo2.png" width="80px" height="80px" alt="Title" style="float:left;"/>
-			<div class="photoSummary">
-				<div class="photoTitle">Another photo title here</div>
-				<div class="publishedTime" data-dojo-time="2013-12-13">published date here</div>
-				<div class="author">author here</div>
-			</div>
-			<div class="summaryClear"></div>
-		</div>
 	</div>
 </div>
 <!-- Settings view -->
@@ -94,7 +84,7 @@
 	<div data-dojo-type="dojox/mobile/Heading"
 		 data-dojo-props="fixed: 'top', label: 'Settings'">
 			  <span id="doneButton" data-dojo-type="dojox/mobile/ToolBarButton"
-					data-dojo-props="label:'Done', moveTo:'feed', transition:'none'" style="float:right;"></span>
+					data-dojo-props="label:'Done', moveTo:'#', transition:'none'" style="float:right;"></span>
 	</div>
 	<div data-dojo-type="dojox/mobile/RoundRect">
 		<div data-dojo-type="dojox/mobile/FormLayout"
@@ -140,10 +130,9 @@
 <!-- Details view -->
 <div id="details" data-dojo-type="dojox/mobile/ScrollableView">
 	<div id="detailsHeading" data-dojo-type="dojox/mobile/Heading"
-		 data-dojo-props="fixed: 'top', label: 'Photo title here', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'">
+		 data-dojo-props="fixed: 'top', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'">
 	</div>
 	<div id="detailsContainer" data-dojo-type="dojox/mobile/RoundRect">
-		Photo description from Flicker here
 	</div>
 </div>
 </body>
