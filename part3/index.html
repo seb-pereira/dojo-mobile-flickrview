@@ -3,22 +3,19 @@
 	<head>
 		<meta charset="utf-8">
 		<title>FlickrView: Implementing FeedView - The Dojo Toolkit</title>
-		
-		
+
 		<!-- This will all be replaced on the live site -->
-		<link rel="stylesheet" href="http://dojotoolkit.org/css/site.css" type="text/css" media="all" />
-		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" type="text/javascript"></script>
-		<link rel="stylesheet" href="http://dojotoolkit.org/documentation/tutorials/1.7/resources/style/style.css" media="screen">
-		<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCoreDefault.css" rel="stylesheet" type="text/css" />
-		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
-		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
-		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script>
-		<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushCss.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="http://dojotoolkit.org/css/site.css?t=12222011" media="screen" />
+		<link rel="stylesheet" href="http://dojotoolkit.org/css/print.css" media="print" />
+		<link rel="stylesheet" href="http://dojotoolkit.org/documentation/tutorials/resources/style/style.css?10282011" media="screen">
+		<script src="http://dojotoolkit.org/highlight/scripts/shCore.js"></script>
+		<script src="http://dojotoolkit.org/highlight/scripts/shBrushJScript.js"></script>
+		<link type="text/css" rel="stylesheet" href="http://dojotoolkit.org/highlight/styles/shCoreDefault.css"/>
+		<script src='http://dojotoolkit.org/highlight/scripts/shBrushXml.js' type='text/javascript'></script>
+		<script src='http://dojotoolkit.org/highlight/scripts/shBrushCss.js' type='text/javascript'></script>
 		<!-- Don't add anything here. This will be replaced on the live site. -->
 		<script>
-			dojo.ready(function(){
-				SyntaxHighlighter.all();
-			});
+			SyntaxHighlighter.all();
 		</script>
 	</head>
 	<body class="claro">
@@ -43,16 +40,13 @@
 							<div class="unit size2of3 firstUnit">
 								<!-- BEGIN YOUR TUTORIAL HERE -->
 								<div class="tutIntro">
-									<img src="images/preview.jpg" class="tut_preview" /><!-- Feel free to use youw own 200x200 image. Must be royalty free or similar license -->
+									<img src="images/preview.png" class="tut_preview" /><!-- Feel free to use youw own 200x200 image. Must be royalty free or similar license -->
 									<div class="introContainer">
 										<h2>Part III - FlickerView: Implementing  FeedView</h2>
 										<p class="summary">
-											In the previous part, we introduced the mobile application we will be
-											building with Dojo Mobile: FlickrView. Starting from the application design
-											and requirements, we built the general layout template and came up with a
-											mockup of the application. We also talked about best practices and we
-											extended ScrollableView so we are now ready to implement FlickrView to
-											make it work as expected ! This part will focus on updating the mockup to
+											In the previous part, <a href="../part2" target="_blank">Developing a Dojo
+											Mobile Application</a>, we built the general layout template and came up with
+											a mockup of the application. This part will focus on updating the mockup to
 											dynamically get data and display feeds from Flickr. You will learn how to
 											initiate, get response and handle error from a JSON request, use a progress
 											indicator while waiting for the server to respond, dynamically populate a
@@ -391,7 +385,7 @@ registry.byId("feed").refresh();
 								</p>
 
 								<h3>Download The Source</h3>
-								<div class="downloadSource">
+								<div class="downlaodSource">
 									Download <a href="resources/DojoMobilePart3.zip">Part III - Implementing FeedView</a>.
 								</div>
 
@@ -419,9 +413,18 @@ registry.byId("feed").refresh();
 									<div class="sidebarSection">
 										<h4>About the Author</h4>
 										<div class="authorInfo">
-											<img src="images/avatar.jpg" class="avatar" />
+											<img src="images/avatarSpereira.jpg" class="avatar" />
 											<p>
-												author(s) bio here.
+												Sebastien Pereira, software engineer at IBM is an active contributor
+												to Dojo on Mobile platforms.
+											</p>
+										</div>
+										<div class="authorInfo">
+											<img src="images/avatarDavidWalsh.jpg" class="avatar" />
+											<p>
+												Original tutorial written by David Walsh, software engineer at
+												<a href="http://www.mozilla.org/">mozilla</a> that blogs frequently
+												about Dojo <a href="http://davidwalsh.name/tutorials/dojo">at his blog</a>.
 											</p>
 										</div>
 									</div>
