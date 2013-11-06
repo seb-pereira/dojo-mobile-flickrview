@@ -131,42 +131,30 @@ var profile = {
 									Next are the <strong>layers</strong> definition:
 								</p>
 								<p>
-									For each layer, we specify the set of modules that the layer will include.
-									Each layer will result in one <code>.js</code> file being generated.
-									Here we define two layers:
+									In this tutorial, we define only one layer that contains all the modules needed by
+									the application. A layer will result in one <code>.js</code> file being generated,
+									and in our case, we define it as the dojo/dojo layer. It will include only the
+									Dojo code that we actually use in our application, and the custom code that is
+									specific to our application.
 								</p>
-								<ul>
-									<li>The <code>dojo/dojo</code> layer that will include only the standard Dojo code
-										that we actually use in our application</li>
-									<li>The <code>flickrview/flickrview-app</code> layer that will contain the custom
-										code that is specific to our application</li>
-								</ul>
+								<p class="proTip">
+									Note that we could have split our applications into multiple layers, for example one
+									layer for the dojo code and one layer for the application code. But in the context
+									of a mobile application deployed on networks with high latencies, having multiple
+									requests could have a significant impact on the overall application launch time. For
+									the same reason, we specify the builder to include the localized bundle into the
+									layer (by means of the <code>includeLocales</code> property).
+								</p>
 <pre class="brush: js;">
 	layers: {
 		"dojo/dojo": {
 			customBase: true,
+			includeLocales: ["en-us"],
 			include: [
-				"dojo/_base/declare",
-				"dojo/_base/lang",
-				"dojo/_base/array",
-				"dojo/_base/window",
-				"dojo/_base/event",
-				"dojo/_base/connect",
-				"dojo/_base/html",
-				"dojo/io/script",
-				"dojo/Deferred",
-				"dojo/DeferredList",
-				"dojo/i18n",
-				"dojo/date",
-				"dijit/_WidgetBase",
-				"dijit/_base/manager",
-				"dojox/mobile",
 				"dojox/mobile/parser",
-				"dojox/mobile/deviceTheme",
+				"dijit/registry",
+				"dojox/mobile/compat",
 				"dojox/mobile/ScrollableView",
-				"dojox/mobile/TabBar",
-				"dojox/mobile/TabBarButton",
-				"dojox/mobile/ToolBarButton",
 				"dojox/mobile/ListItem",
 				"dojox/mobile/FormLayout",
 				"dojox/mobile/TextBox",
@@ -182,12 +170,7 @@ var profile = {
 				"dojo/cldr/nls/pt/gregorian",
 				"dojo/cldr/nls/es/gregorian",
 				"dojo/cldr/nls/zh/gregorian",
-				"dojo/cldr/nls/zh-hk/gregorian"
-			]
-		},
-		"flickrview/flickrview-app": {
-			includeLocales: ["en-us"],
-			include: [
+				"dojo/cldr/nls/zh-hk/gregorian",
 				"flickrview/FeedView",
 				"flickrview/SettingsView"
 			]
@@ -279,57 +262,28 @@ cd js\util\buildscripts
 									that was created by the build instead of the original <code>dojo.js</code>.
 									This corresponds to the <code>dojo/dojo</code> layer in our profile, and the
 									resulting file is in <code>release/js/dojo/dojo.js</code>, so we update the path
-									of the Dojo script tag accordingly.
-								</p>
-								<p>
-									We also need to load the application-specific code corresponding to our second
-									layer, <code>flickrview/flickrview-app</code>. When using the AMD loader,
-									additional layers must be loaded using require calls, like other modules.
-									So, we add a new <code>require</code> call "around" our existing code, which
-									means that all the code that we had previously (including the existing require
-									calls) is now contained in the factory function of the new require call.
+									of the Dojo script tag accordingly. We don't need to do other modifications since
+									the layer contains all the modules the application needs.
 								</p>
 <pre class="brush: js; html-script: true;">
 &lt;script type="text/javascript" src="./release/js/dojo/dojo.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-	require(["flickrview/flickrview-app"], function(){
-		require([...], function(...){ // existing require calls
-			// ... existing code
-		});
+	require([...], function(...){ // existing require calls
+		// ... existing code
 	});
 	// ...
 &lt;/script&gt;
 </pre>
-								<p class="proTip">
-									The nested require calls are necessary to make sure that the layer code is loaded
-									before the other modules are actually required.
-								</p>
 								<p>
-									Finally, you must also update the location of the flickrview package in the
-									<code>dojoConfig</code> section so that it points to <code>release/js</code>.
-									This is necessary to find the <code>nls</code> files generated during the build:
+									Finally, we can also simplify the <code>dojoConfig</code> section like this :
 								</p>
 <pre class="brush: js; html-script: true;">
 &lt;script type="text/javascript"&gt;
-	dojoConfig = {
-		async: true,
-		baseUrl: './release',
-		parseOnLoad: false,
-		extraLocale: ["en-us", "fr-fr", "de-de", "it-it", "ko-kr", "pt-br", "es-us", "zh-hk"],
-		packages: [{
-			name: "flickrview",
-			location: "js/flickrview"
-		},{
-			name: "dojo",
-			location: "js/dojo"
-		},{
-			name: "dojox",
-			location: "js/dojox"
-		},{
-			name: "dijit",
-			location: "js/dijit"
-		}]
-	};
+		dojoConfig = {
+			async: true,
+			parseOnLoad: false,
+			extraLocale: ["en-us", "fr-fr", "de-de", "it-it", "ko-kr", "pt-br", "es-us", "zh-hk"]
+		};
 &lt;/script&gt;
 </pre>
 								<p class="proTip">
