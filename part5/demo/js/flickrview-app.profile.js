@@ -17,28 +17,12 @@ var profile = {
 	layers: {
 		"dojo/dojo": {
 			customBase: true,
+			includeLocales: ["en-us"],
 			include: [
-				"dojo/_base/declare",
-				"dojo/_base/lang",
-				"dojo/_base/array",
-				"dojo/_base/window",
-				"dojo/_base/event",
-				"dojo/_base/connect",
-				"dojo/_base/html",
-				"dojo/io/script",
-				"dojo/Deferred",
-				"dojo/DeferredList",
-				"dojo/i18n",
-				"dojo/date",
-				"dijit/_WidgetBase",
-				"dijit/_base/manager",
-				"dojox/mobile",
 				"dojox/mobile/parser",
-				"dojox/mobile/deviceTheme",
+				"dijit/registry",
+				"dojox/mobile/compat",
 				"dojox/mobile/ScrollableView",
-				"dojox/mobile/TabBar",
-				"dojox/mobile/TabBarButton",
-				"dojox/mobile/ToolBarButton",
 				"dojox/mobile/ListItem",
 				"dojox/mobile/FormLayout",
 				"dojox/mobile/TextBox",
@@ -54,12 +38,7 @@ var profile = {
 				"dojo/cldr/nls/pt/gregorian",
 				"dojo/cldr/nls/es/gregorian",
 				"dojo/cldr/nls/zh/gregorian",
-				"dojo/cldr/nls/zh-hk/gregorian"
-			]
-		},
-		"flickrview/flickrview-app": {
-			includeLocales: ["en-us"],
-			include: [
+				"dojo/cldr/nls/zh-hk/gregorian",
 				"flickrview/FeedView",
 				"flickrview/SettingsView"
 			]
@@ -67,18 +46,22 @@ var profile = {
 	},
 
 	staticHasFeatures: {
-		"dom-addeventlistener": true,
-		"dom-qsa": true,
-		"json-stringify": true,
-		"json-parse": true,
-		"bug-for-in-skips-shadowed": false,
-		"dom-matches-selector": true,
-		"native-xhr": true,
-		"array-extensible": true,
+		"dom-addeventlistener": 1,
+		"dom-qsa": 1,
+		"json-stringify": 1,
+		"json-parse": 1,
+		"bug-for-in-skips-shadowed": 0,
+		"dom-matches-selector": 1,
+		"native-xhr": 1,
+		"array-extensible": 1,
 		"ie": undefined,
-		"quirks": false,
-		"dojo-sync-loader": false,
-		"ie-event-behavior": 0
+		"dijit-legacy-requires": 0,
+		"dom-quirks": 0,
+		"quirks": 0,
+		"dojo-sync-loader": 0,
+		"ie-event-behavior": 0,
+		"dojo-guarantee-console": 0,
+		"dojo-log-api":0
 	},
 
 	packages: [
