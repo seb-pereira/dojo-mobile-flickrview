@@ -101,7 +101,7 @@ getTagMode: function () {
 									Continuing on the startup method, we create a handler to retain the selected
 									language when user clicks on a radio button. To do that we rely on a powerful
 									feature of <strong>dojo/on</strong>:
-									<a href="http://dojotoolkit.org/reference-guide/1.9/dojo/on.html#event-delegation"
+									<a href="http://dojotoolkit.org/reference-guide/dojo/on.html#event-delegation"
 									   target="_blank">even delegation with selector</a>.
 								</p>
 <pre class="brush: js;">
@@ -157,7 +157,8 @@ registry.byId("doneButton").on("click", lang.hitch(this, function () {
 
 								<h3>Respond to transition events</h3>
 								<p>
-									Dojo Mobile provides a set of events related to transitions [ADD LINK AND UPDATE DOC].
+									Dojo Mobile provides a <a href="http://dojotoolkit.org/reference-guide/dojox/mobile/transition-events.html"
+															  target="_blank">set of events related to transitions</a>.
 									Still in the startup method, we’ll set a handler on the event <strong>beforeTransitionIn</strong>
 									to get notify just before a transition to the settings view occurs.
 								</p>
@@ -216,11 +217,14 @@ this.on("beforeTransitionIn", lang.hitch(this, function () {
 
 								<h3>Resources & references</h3>
 								<ul>
-									<li><a href="http://dojotoolkit.org/reference-guide/1.9/dojox/mobile/deviceTheme.html" target="_blank">dojox/mobile/deviceTheme</a></li>
-									<li><a href="http://dojotoolkit.org/documentation/tutorials/1.9/dojo_config/" target="_blank">Configuring Dojo (Tutorial)</a></li>
-									<li><a href="http://dojotoolkit.org/api/dojox/mobile" target="_blank">dojox/mobile API</a></li>
-									<li><a href="http://dojotoolkit.org/reference-guide/dojox/mobile.html" target="_blank">dojox/mobile Reference Guide</a></li>
-									<li><a href="http://dojotoolkit.org/features/1.6/html5data-attributes" target="_blank">data-dojo-props</a></li>
+									<li><a href="http://dojotoolkit.org/reference-guide/dojox/mobile.html"
+										   target="_blank">Dojo Mobile Reference Guide</a></li>
+									<li><a href="http://dojotoolkit.org/api"
+										   target="_blank">The Dojo Toolkit API</a></li>
+									<li><a href="http://dojotoolkit.org/reference-guide/dojo/on.html#event-delegation"
+										   target="_blank">dojo/on Event Delegation</a> (Reference Guide)</li>
+									<li><a href="http://dojotoolkit.org/reference-guide/dojox/mobile/transition-events.html"
+										   target="_blank">dojox/mobile Transition Events</a> (Reference Guide)</li>
 								</ul>
 								<h3>The FlickrView Series</h3>
 								<div class="series">
