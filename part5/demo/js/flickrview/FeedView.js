@@ -76,8 +76,8 @@ define([
 			// remove progress indicator
 			this.progressIndicator.stop();
 			this.feedList.destroyDescendants();
-			// display feed title
-			this.feedHeading.set('label',result.title);
+			// restore the title
+			this.feedHeading.set('label','Feeds');
 			// populate the list
 			array.forEach(result.items, lang.hitch(this, function (resultItem) {
 				// Create a new ListItem at the end of the list
@@ -93,7 +93,6 @@ define([
 				});
 				listItem.onClick = lang.hitch(this, function(){
 					// update details view before transitioning to it
-					this.detailsHeading.set("label", resultItem.title);
 					this.detailsContainer.domNode.innerHTML = resultItem.description.replace(/href=/ig,"target=\"_blank\" href=");
 					listItem.set("transition","slide");
 					listItem.transitionTo("details");

@@ -68,7 +68,8 @@
 <!-- Feed view -->
 <div id="feed" data-dojo-type="flickrview/FeedView" data-dojo-props="selected: true">
 	<div id="feedHeading" style="text-overflow: ellipsis; text-align:  "
-		 data-dojo-type="dojox/mobile/Heading">
+		 data-dojo-type="dojox/mobile/Heading"
+		 data-dojo-props="fixed: 'top', label: 'Feeds'">
 					<span data-dojo-type="dojox/mobile/ToolBarButton"
 						  data-dojo-props="icon: 'images/settings.png', moveTo:'settings', transitionDir:'-1', transition:'none'"
 						  style="float:left;"></span>
@@ -121,7 +122,7 @@
 					<input id="es-us" data-dojo-type="dojox/mobile/RadioButton"
 						   type="radio" name="feedLanguage" value="es-us"><label for="es-us">Spanish</label><br />
 					<input id="zh-hk" data-dojo-type="dojox/mobile/RadioButton"
-						   type="radio" name="feedLanguage" value="zh-hk"><label for="zh-hk">Traditional Chinese (HK)</label><br />
+						   type="radio" name="feedLanguage" value="zh-hk"><label for="zh-hk">Chinese (HK)</label><br />
 				</fieldset>
 			</div>
 		</div>
@@ -130,7 +131,7 @@
 <!-- Details view -->
 <div id="details" data-dojo-type="dojox/mobile/ScrollableView">
 	<div id="detailsHeading" data-dojo-type="dojox/mobile/Heading"
-		 data-dojo-props="fixed: 'top', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'">
+		 data-dojo-props="fixed: 'top', label: 'Details', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'">
 	</div>
 	<div id="detailsContainer" data-dojo-type="dojox/mobile/RoundRect">
 	</div>

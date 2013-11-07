@@ -92,9 +92,9 @@
 								<p>
 									The first view to show up (the default view) is the <strong>Feed view</strong>
 									which displays a list of photos according to search criteria. The header contains
-									a button on the left to display the <strong>settings view</strong>. Another button
+									a button on the left to display the <strong>Settings view</strong>. Another button
 									on the right allows to refresh the content of the view. The selection of a list
-									item triggers a transition to the <strong>Details view</strong>> with the full
+									item triggers a transition to the <strong>Details view</strong> with the full
 									description of the photo.
 								</p>
 								<p>
@@ -112,7 +112,7 @@
 									</li>
 								</ul>
 								<p>
-									Feed/photo titles, published date, author, and photo description will result from
+									Published date, author, and photo description will result from
 									the JSON request. Will go through this in detail later on.
 								</p>
 
@@ -182,7 +182,7 @@
 									from.
 								<p>
 									Here is now how should look our HTML before we define the
-									three Views (settings, feed and details):
+									three Views (SettingsView, FeedView and DetailsView):
 								</p>
 <pre class="brush: js; html-script: true;">
 &lt;!DOCTYPE html&gt;
@@ -244,7 +244,7 @@
 &lt;div id="feed" data-dojo-type="dojox/mobile/ScrollableView" data-dojo-props="selected: true"&gt;
 &lt;div id="feedHeading"
 	 data-dojo-type="dojox/mobile/Heading"
-	 data-dojo-props="fixed: 'top', label: 'Recent Uploads title here'"&gt;
+	 data-dojo-props="fixed: 'top', label: 'Feeds'"&gt;
 			&lt;span data-dojo-type="dojox/mobile/ToolBarButton"
 				  data-dojo-props="icon: 'images/settings.png', moveTo:'settings', transitionDir:'-1', transition:'none'"
 				  style="float:left;"&gt;&lt;/span&gt;
@@ -332,7 +332,7 @@
 &lt;!-- Details view --&gt;
 &lt;div id="details" data-dojo-type="dojox/mobile/ScrollableView"&gt;
 &lt;div id="detailsHeading" data-dojo-type="dojox/mobile/Heading"
-	 data-dojo-props="fixed: 'top', label: 'Photo title here', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'"&gt;
+	 data-dojo-props="fixed: 'top', label: 'Details', back:'Back', moveTo:'feed', transition:'slide', transitionDir:'-1'"&gt;
 &lt;/div&gt;
 &lt;div id="detailsContainer" data-dojo-type="dojox/mobile/RoundRect"&gt;
 	Photo description from Flicker here
@@ -356,22 +356,22 @@
 									</li>
 									<ul>
 										<li><img src="resources/refreshBtn.png"> will refresh the content of the
-											<em>feed</em> view</li>
-										<li><img src="resources/settingsBtn.png"> transitions to the <em>settings</em>
+											<em>Feed</em> view</li>
+										<li><img src="resources/settingsBtn.png"> transitions to the <em>Settings</em>
 											view</li>
-										<li><img src="resources/doneBtn.png"> transition to the <em>feed</em> view</li>
-										<li><img src="resources/backBtn.png"> transition back to the <em>feed</em> view</li>
+										<li><img src="resources/doneBtn.png"> transition to the <em>Feed</em> view</li>
+										<li><img src="resources/backBtn.png"> transition back to the <em>Feed</em> view</li>
 									</ul>
 									<li>Note the attribute <strong>data-dojo-props</strong> of
 										<strong>ToolBarButton</strong>: refresh and settings buttons are rendered using
 										images we put in our images directory, and declared in the
 										<em>icon</em> property.</li>
 									<li>Also, note how transitions are declared in <strong>data-dojo-props</strong>.
-										<em>moveTo</em> defines the target, <em>transition</em> defines the type of
-										transition and <em>transitionDir</em> defines the direction of the transition.
+										<code>moveTo</code> defines the target, <code>transition</code> defines the type of
+										transition and <code>transitionDir</code> defines the direction of the transition.
 										See <a href="http://dojotoolkit.org/reference-guide/dojox/mobile/Heading.html"
 											   target="_blank">dojox/mobile/heading</a> for more details.</li>
-									<li>On the <em>feed</em> view we declared 2 <strong>dojox/mobile/ListItem</strong>
+									<li>On the <em>Feed</em> view we declared 2 <strong>dojox/mobile/ListItem</strong>
 										widgets for the sake of the mockup. Eventually we will programmatically
 										generate ListItems from the result of a JSONP request.</li>
 									<li>Custom CSS are used only to format the ListItem. All other formatting styles
@@ -416,8 +416,8 @@ require([
 
 								<h4>Extending ScrollableView</h4>
 								<p>
-									First we define our classes by creating skeletons files <em>js/FeedView.js</em>
-									and <em>js/SettingsView.js</em>:
+									First we define our classes by creating skeletons files <code>js/FeedView.js</code>
+									and <code>js/SettingsView.js</code>:
 								</p>
 <pre class="brush: js;">
 define([

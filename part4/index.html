@@ -66,13 +66,27 @@
 								</p>
 <pre class="brush: js;">
 return declare([ScrollableView], {
-	 feedView: '',
+	feedView: '',
 	tagInput: '',
 	selectSwitch: '',
 	selectedLanguage: '',
 //...
 </pre>
 
+								<h3>SettingsView startup</h3>
+								<p>
+									Same as what we did in FeedView startup method: we call the parent method and
+									initialize our properties:
+								</p>
+<pre class="brush: js;">
+startup: function () {
+	this.inherited(arguments);
+	this.feedView = registry.byId("feed");
+	this.tagInput = registry.byId("tags");
+	this.selectSwitch = registry.byId("select");
+	// ...
+}
+</pre>
 								<p>
 									We also take the opportunity to add some useful getters and setters to our
 									SettingsView class:
@@ -116,7 +130,7 @@ this.on("[name=feedLanguage]:click", lang.hitch(this, function (e) {
 									Add a click handler on the <strong>Done</strong> button, such as:
 								</p>
 								<ul>
-									<li>programmatically perform the transition back to the FeedView </li>
+									<li>programmatically perform the transition back to the Feed view </li>
 									<li>force a refresh of the view only if the user changed at least one setting</li>
 								</ul>
 <pre class="brush: js;">
@@ -188,8 +202,8 @@ this.on("beforeTransitionIn", lang.hitch(this, function () {
 									It will reduce the size and contribute to a clearer code:
 								</p>
 								<ul>
-									<li><strong>FeedView</strong>: remove the ListItems and the Heading label.</li>
-									<li><strong>DetailssView</strong>: remove the static description remove and the Heading label.</li>
+									<li><strong>FeedView</strong>: remove the ListItems.</li>
+									<li><strong>DetailssView</strong>: remove the static description.</li>
 								</ul>
 								<h4>Remove Cache-Preventing Meta Tags</h4>
 								<p>

@@ -70,8 +70,8 @@
 									global scope in our HTML file. This object will:
 								</p>
 								<ul>
-									<li>contain the query parameters to build the JSON request used by the feed view</li>
-									<li>be updated by user inputs from the settings view</li>
+									<li>contain the query parameters to build the JSON request used by the Feed view</li>
+									<li>be updated by user inputs from the Settings view</li>
 								</ul>
 <pre class="brush: js;">
 require([
@@ -93,7 +93,7 @@ require([
 
 								<h3>FeedView properties</h3>
 								<p>
-									The FeedView will be in charge of getting and displaying a list of the most recent
+									The Feed view will be in charge of getting and displaying a list of the most recent
 									photos uploaded to Flickr. We’ll need a url and some options to pass to the JSONP
 									request in order to contact Flickr public service:
 								</p>
@@ -250,14 +250,14 @@ scriptRequest.get(this.requestUrl, this.requestOptions).then(lang.hitch(this, th
 								<p>
 									Successful response is handled in <code>onFlickrResponse</code>. Let's go through
 									it line by line. First thing to do is to stop/remove the progress indicator and
-									update the Heading with the feed title from Flickr:
+									update the Heading:
 								</p>
 <pre class="brush: js;">
 // remove progress indicator
 this.progressIndicator.stop();
 this.feedList.destroyDescendants();
-// display feed title
-this.feedHeading.set('label',result.title);
+// restore the title
+this.feedHeading.set('label','Feeds');
 </pre>
 								<p>
 									Now we can iterate through the result items:
@@ -293,14 +293,13 @@ listItem.containerNode.innerHTML = this.substitute(this.flickrviewItemTemplateSt
 									into this in detail later when we’ll talk about localization.
 								</p>
 								<p>
-									Clicking on an Item should trigger a transition to the details view. Before
+									Clicking on an Item should trigger a transition to the Details view. Before
 									transitioning we have to update the content of the details view. In order to do this
 									we add a click handler on the ListItem:
 								</p>
 <pre class="brush: js;">
 listItem.onClick = lang.hitch(this, function(){
 	// update details view before transitioning to it
-	this.detailsHeading.set("label", resultItem.title);
 	this.detailsContainer.domNode.innerHTML = resultItem.description.replace(/href=/ig,"target=\"_blank\" href=");
 	listItem.set("transition","slide");
 	listItem.transitionTo("details");
